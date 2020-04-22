@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:todomobx/store/list_store.dart';
 import 'package:todomobx/widgets/custom_icon_button.dart';
 import 'package:todomobx/widgets/custom_text_field.dart';
 
@@ -11,6 +13,8 @@ class ListScreen extends StatefulWidget {
 }
 
 class _ListScreenState extends State<ListScreen> {
+
+  ListStore listStore = ListStore();
 
   @override
   Widget build(BuildContext context) {
@@ -56,37 +60,43 @@ class _ListScreenState extends State<ListScreen> {
                     padding: const EdgeInsets.all(16),
                     child: Column(
                       children: <Widget>[
-                        CustomTextField(
-                          hint: 'Tarefa',
-                          onChanged: (todo){
-
-                          },
-                          suffix: CustomIconButton(
-                            radius: 32,
-                            iconData: Icons.add,
-                            onTap: (){
-
-                            },
-                          ),
-                        ),
-                        const SizedBox(height: 8,),
-                        Expanded(
-                          child: ListView.separated(
-                            itemCount: 10,
-                            itemBuilder: (_, index){
-                              return ListTile(
-                                title: Text(
-                                  'Item $index',
-                                ),
+                        Observer(
+                          builder: (_) {
+                            return CustomTextField(
+                              hint: 'Tarefa',
+                              onChanged: listStore.setNewTodoTitle,
+                              suffix: listStore.isFormValid ? CustomIconButton(
+                                radius: 32,
+                                iconData: Icons.add,
                                 onTap: (){
 
                                 },
+                              ) : null,
+                            );
+                          },
+                        ),
+                        const SizedBox(height: 8,),
+                        Expanded(
+                          child: Observer(
+                            builder: (_) {
+                              return ListView.separated(
+                                itemCount: listStore.todoList.length,
+                                itemBuilder: (_, index){
+                                  return ListTile(
+                                    title: Text(
+                                      listStore.todoList[index],
+                                    ),
+                                    onTap: (){
+
+                                    },
+                                  );
+                                },
+                                separatorBuilder: (_, __){
+                                  return Divider();
+                                },
                               );
                             },
-                            separatorBuilder: (_, __){
-                              return Divider();
-                            },
-                          ),
+                          )
                         ),
                       ],
                     ),
