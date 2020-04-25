@@ -48,6 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
+
               StreamBuilder<FieldState>(
                 stream: _loginBloc.outEmail,
                 initialData: FieldState(),
@@ -77,6 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             fontWeight: FontWeight.w700),
                       ),
                     ),
+                    
                     GestureDetector(
                       child: Text(
                         'Esqueceu sua senha?',
