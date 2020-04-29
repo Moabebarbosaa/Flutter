@@ -78,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             fontWeight: FontWeight.w700),
                       ),
                     ),
-                    
+
                     GestureDetector(
                       child: Text(
                         'Esqueceu sua senha?',
